@@ -1,0 +1,7 @@
+#directories
+logs/**
+/**/coverage
+/**/node_modules
+
+#output files
+*.bundle.js
