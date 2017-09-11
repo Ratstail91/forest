@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font: 13pt Helvetica, Arial;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollable {
+  min-height: 95vh;
+  max-height: 95vh;
+  overflow: auto;
+  flex: 1 0 auto;
+}
+
+form {
+  flex: 1 0 auto;
+  justify-self: flex-end;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background: #eee;
+  padding: 2px;
+}
+
+form input {
+  flex: 3;
+  border: none;
+}
+
+form button {
+  flex: 1;
+//  background: rgb(130, 244, 255);
+}
