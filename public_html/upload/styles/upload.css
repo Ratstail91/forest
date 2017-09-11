@@ -13,10 +13,15 @@ body {
 }
 
 .scrollable {
-  min-height: 95vh;
+  min-height: 90vh;
   max-height: 95vh;
   overflow: auto;
   flex: 1 0 auto;
+}
+
+.motd {
+  flex: 1 0 auto;
+  color: red;
 }
 
 form {
