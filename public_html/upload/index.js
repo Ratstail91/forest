@@ -11,6 +11,12 @@ app.get('/', function(req, res) {
 });
 
 app.post('/fileupload', function(req, res) {
+  //closed
+  res.write('Submissions are closed. Thank you.');
+  res.end();
+  return;
+
+  //original
   var form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
     var oldpath = files.filetoupload.path;
