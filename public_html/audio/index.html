@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles/audio.css">
+  </head>
+  <body>
+    <ul id="songlist">
+
+      <!-- 1 -->
+      <li class="closed">
+        <a onclick="toggleClick(this);">Open/close this song (1.mp3)</a>
+        <audio controls>
+          <source src="/music?id=1.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </li>
+
+      <!-- 2 -->
+      <li class="closed">
+        <a onclick="toggleClick(this);">Open/close this song (2.mp3)</a>
+        <audio controls>
+          <source src="/music?id=2.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </li>
+
+      <!-- 3 -->
+      <li class="closed">
+        <a onclick="toggleClick(this);">Open/close this song (3.mp3)</a>
+        <audio controls>
+          <source src="/music?id=3.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </li>
+
+      <!-- 4 -->
+      <li class="closed">
+        <a onclick="toggleClick(this);">Open/close this song (4.mpg)</a>
+        <audio controls>
+          <source src="/music?id=4.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </li>
+
+    </ul>
+
+    <!-- js that drives the page -->
+    <script>
+      function toggleClick(element) {
+        var parent = element.parentNode;
+
+        if (parent.className != "open") {
+          parent.className = "open";
+        }
+        else {
+          parent.className = "closed";
+        }
+      }
+    </script>
+
+  </body>
+</html>
