@@ -1,8 +1,128 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles/forest.css">
+    <script src="http://forest.krgamestudios.com:3000/socket.io/socket.io.js"></script>
+
+    <!-- header js -->
+    <script>
+      var socket = io('http://forest.krgamestudios.com:3000');
+    </script>
+
   </head>
+
   <body>
-    <p>This website is under construction.</p>
+    <div class="scrollable">
+      <ul id="songlist"></ul>
+    </div>
+
+    <p class="motd">MOTD: This site is in beta!</p>
+
+    <form action="http://forest.krgamestudios.com:3000/fileupload" method="post" enctype="multipart/form-data">
+      <input type="file" name="filetoupload">
+      <button type="submit">Upload</button>
+    </form>
+
+    <!-- footer content -->
+    <footer>
+      <p>Copyright Kayne Ruse, <a href="http://krgamestudios.com">KR Game Studios</a> 2017</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      //open/close the songs
+      function toggleClick(element) {
+        var parent = element.parentNode;
+
+        if (parent.className != "open") {
+          parent.className = "open";
+        }
+        else {
+          parent.className = "closed";
+        }
+      }
+
+      function deleteClick(element) {
+        var parent = element.parentNode;
+        filename = parent.firstChild.innerText;
+        socket.emit('delete', filename);
+      }
+
+      function playClick(element) {
+        var parent = element.parentNode;
+        filename = parent.firstChild.innerText;
+        socket.emit('play', filename);
+      }
+
+      //take a list, return formatted html
+      function formatListItems(list) {
+        var ret = '';
+
+        for (i = 0; i < list.length; i++) {
+          ret += '<li class="closed">';
+          ret += '<a onclick="toggleClick(this);">' + list[i] + '</a>';
+          ret += '<a onclick="deleteClick(this);" class="right">Delete</a>';
+          ret += '<audio controls onplay="playClick(this);">';
+          ret += '<source src="' + window.location.origin + ':3000/music?id=' + list[i] + '" type="audio/mpeg">';
+          ret += 'Your browser does not support the audio element.';
+          ret += '</audio>';
+          ret += '</li>';
+        }
+        return ret;
+      }
+
+      //receive the list from the server
+      //TODO: test
+      socket.on('audio all', function(msg) {
+        var songlist = document.getElementById('songlist');
+        songlist.innerHTML = formatListItems(JSON.parse(msg)); //assume msg carries everything
+      });
+
+      //add to the list you have
+      //TODO: test
+      socket.on('audio add', function(msg) {
+        var songlist = document.getElementById('songlist');
+        songlist.innerHTML += formatListItems(JSON.parse(msg)); //assume the msg carries a single item
+      });
+
+      //delete from the list you have
+      //TODO: test
+      socket.on('audio del', function(msg) {
+        var listitems = document.querySelectorAll('#songlist li');
+        var li = undefined;
+
+        for (var i = 0; li = listitems[i]; i++) {
+          var child = (li.firstElementChild || li.firstChild); //IE
+          if (child.innerText === msg) {
+            li.parentNode.removeChild(li);
+          }
+        }
+      });
+
+      socket.on('audio play', function(msg) {
+        var listitems = document.querySelectorAll('#songlist li');
+
+        var li = undefined;
+        for (var i = 0; li = listitems[i]; i++) {
+
+          var child = (li.firstElementChild || li.firstChild); //IE
+          if (child.innerText === msg) {
+
+            var itemTwo = undefined;
+            for (var j = 0; itemTwo = listitems[j]; j++) {
+              if (i != j) {
+                itemTwo.childNodes[2].pause();
+                itemTwo.childNodes[2].currentTime = 0;
+              }
+            }
+
+            li.childNodes[2].play();
+            li.childNodes[2].loop = true;
+          }
+        }
+      });
+
+    </script>
   </body>
 </html>
