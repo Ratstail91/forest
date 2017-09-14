@@ -129,9 +129,16 @@
             source.src = window.location.origin + ':3000/music?id=' + msg;
 
             audio.loop = true;
-            audio.pause();
+//            audio.pause();
             audio.load();
-            audio.play();
+            audio.play()
+              .then(function() {
+                console.log('playback success');
+              })
+              .catch(function(err) {
+                console.log(err);
+              });
+
             li.className = 'playing';
           }
         }
