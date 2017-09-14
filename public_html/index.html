@@ -55,6 +55,12 @@
         socket.emit('play', filename);
       }
 
+      function pauseClick(element) {
+        var parent = element.parentNode;
+        filename = parent.firstChild.innerText;
+        socket.emit('pause', filename);
+      }
+
       //take a list, return formatted html
       function formatListItems(list) {
         var ret = '';
@@ -63,7 +69,7 @@
           ret += '<li class="closed">';
           ret += '<a onclick="toggleClick(this);">' + list[i] + '</a>';
           ret += '<a onclick="deleteClick(this);" class="right">Delete</a>';
-          ret += '<audio controls onplay="playClick(this);">';
+          ret += '<audio controls onplay="playClick(this);" onpause="pauseClick(this);">';
           ret += '<source src="' + window.location.origin + ':3000/music?id=' + list[i] + '" type="audio/mpeg">';
           ret += 'Your browser does not support the audio element.';
           ret += '</audio>';
@@ -120,6 +126,16 @@
             li.childNodes[2].play();
             li.childNodes[2].loop = true;
           }
+        }
+      });
+
+      socket.on('audio pause', function(msg) {
+        var listitems = document.querySelectorAll('#songlist li');
+
+        var li = undefined;
+        for (var i = 0; li = listitems[i]; i++) {
+          li.childNodes[2].pause();
+          li.childNodes[2].currentTime = 0;
         }
       });
 

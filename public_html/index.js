@@ -63,6 +63,9 @@ io.on('connection', function(socket) {
   socket.on('play', function(filename) {
     io.sockets.emit('audio play', filename);
   });
+  socket.on('pause', function(filename) {
+    io.sockets.emit('audio pause', filename);
+  });
 });
 
 //handle uploads
@@ -70,9 +73,19 @@ app.post('/fileupload', function(req, res) {
   //receive and save the file
   var form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
-    //move the file to a new location
+    //get the full path names
     var oldpath = files.filetoupload.path;
     var newpath = __dirname + musicDir + encodeURI(files.filetoupload.name);
+
+    //validate based on file extension
+    if (files.filetoupload.name.substr(-4) !== '.mp3') {
+      fs.unlink(oldpath);
+      res.write('invalid file type! we only accept .mp3!');
+      res.end();
+      return;
+    }
+
+    //move the file to a new location
     fs.rename(oldpath, newpath, function(err) {
       if (err) throw (err);
       res.write('file uploaded!');
