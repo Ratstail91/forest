@@ -61,9 +61,11 @@ io.on('connection', function(socket) {
 
   socket.on('delete', audioDel);
   socket.on('play', function(filename) {
+    console.log('bouncing play message');
     io.sockets.emit('audio play', filename);
   });
   socket.on('pause', function(filename) {
+    console.log('bouncing pause message');
     io.sockets.emit('audio pause', filename);
   });
 });

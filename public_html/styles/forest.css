@@ -10,6 +10,7 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .scrollable {
@@ -45,23 +46,23 @@ body {
   justify-content: space-between;
 }
 
-#songlist li.closed:nth-child(odd) {
+#songlist li:nth-child(odd) {
   background: #eee;
 }
 
-#songlist li.closed:nth-child(even) {
-  background: #fff;
-}
-
-#songlist li.open {
-  background: #CD9575;
+#songlist li.playing {
+  background: cornflowerBlue;
 }
 
 .motd {
-  flex: 1 0 auto;
-  min-height: 5vh;
+  flex: 1 1 auto;
+  min-height: 0vh;
   max-height: 5vh;
   color: red;
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 form {
