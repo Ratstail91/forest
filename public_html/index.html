@@ -3,11 +3,11 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styles/forest.css">
-    <script src="http://forest.krgamestudios.com:3000/socket.io/socket.io.js"></script>
+    <script src="http://jukebox.krgamestudios.com:3000/socket.io/socket.io.js"></script>
 
     <!-- header js -->
     <script>
-      var socket = io('http://forest.krgamestudios.com:3000');
+      var socket = io('http://jukebox.krgamestudios.com:3001');
     </script>
 
   </head>
@@ -30,7 +30,7 @@
     </div>
 
     <!-- upload form -->
-    <form action="http://forest.krgamestudios.com:3000/fileupload" method="post" enctype="multipart/form-data">
+    <form action="http://jukebox.krgamestudios.com:3001/fileupload" method="post" enctype="multipart/form-data">
       <input type="file" name="filetoupload">
       <button type="submit">Upload</button>
     </form>
@@ -126,7 +126,7 @@
           if (child.innerText === msg) {
             var audio = document.getElementById('player');
             var source = document.getElementById('playerSource');
-            source.src = window.location.origin + ':3000/music?id=' + msg;
+            source.src = window.location.origin + ':3001/music?id=' + msg;
 
             audio.loop = true;
 //            audio.pause();
