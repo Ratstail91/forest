@@ -4,6 +4,7 @@ logs/**
 /**/node_modules
 /**/dl
 /**/music
+/**/backup
 
 #output files
 *.log

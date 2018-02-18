@@ -3,9 +3,10 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var formidable = require('formidable');
-var fs = require('fs');
+var fs = require('fs-extra');
 
 var musicDir = '/music/';
+var backupDir = '/backup/';
 
 app.use('/styles', express.static(__dirname + '/styles'));
 
@@ -78,6 +79,7 @@ app.post('/fileupload', function(req, res) {
     //get the full path names
     var oldpath = files.filetoupload.path;
     var newpath = __dirname + musicDir + encodeURI(files.filetoupload.name);
+    var backuppath = __dirname + backupDir + encodeURI(files.filetoupload.name);
 
     //validate based on file extension
     if (files.filetoupload.name.substr(-4) !== '.mp3') {
@@ -94,6 +96,8 @@ app.post('/fileupload', function(req, res) {
       res.end();
 
       audioAdd(files.filetoupload.name);
+
+      fs.copy(newpath, backuppath);
     });
   });
 });
